@@ -26,7 +26,14 @@ public class ExtendedUpdate {
         try {
             Command cmd;
             List<String> args;
-            String text = getMessageText().trim().replaceAll("\\s+", " ");
+            String text;
+
+            if (hasCaption()) {
+                text = getCaption().trim().replaceAll("\\s+", " ");
+            } else {
+                text = getMessageText().trim().replaceAll("\\s+", " ");
+            }
+
             if (text.contains(" ")) {
                 cmd = Command.valueOf(text.substring(1, text.indexOf(" ")).toUpperCase());
                 args = Arrays.asList(text.substring(text.indexOf(" ") + 1).split(" "));
@@ -34,18 +41,23 @@ public class ExtendedUpdate {
                 cmd = Command.valueOf(text.substring(1).toUpperCase());
                 args = Collections.emptyList();
             }
-            return new ParsedCommand(getChatId(), cmd, args);
+            return new ParsedCommand(getChatId(), cmd, args, getMessage().document());
         } catch (IllegalArgumentException e) {
             throw new UnknownCommandException();
         }
     }
 
     public boolean isCommand() {
-        return hasMessageText() && getMessageText().matches("/.*");
+        return (hasMessageText() && getMessageText().matches("/.*")) ||
+                (hasCaption() && getCaption().matches("/.*"));
     }
 
     public boolean hasMessage() {
         return getMessage() != null;
+    }
+
+    public boolean hasCaption() {
+        return getCaption() != null;
     }
 
     public boolean hasMessageText() {
@@ -65,6 +77,10 @@ public class ExtendedUpdate {
 
     public Message getMessage() {
         return update.message();
+    }
+
+    public String getCaption() {
+        return update.message().caption();
     }
 
     public String getMessageText() {

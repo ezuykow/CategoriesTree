@@ -23,9 +23,19 @@ public class CategoryService {
 
     public void saveCategory(Category category) {
         if (categoryRepository.existsByName(category.getName())) {
-            throw new RepeatedCategoryException(category.getName());
+            throw new RepeatedCategoryException("Категория '" + category.getName() + "' уже существует!");
         }
         categoryRepository.save(category);
+    }
+
+    public void saveAll(List<Category> categories) {
+        if (!categoryRepository.findCategoriesByNameIn(categories.stream()
+                .map(Category::getName)
+                .toList()).isEmpty())
+        {
+            throw new RepeatedCategoryException("Одна или несколько категорий уже существуют!");
+        }
+        categoryRepository.saveAll(categories);
     }
 
     public List<Category> findAll() {

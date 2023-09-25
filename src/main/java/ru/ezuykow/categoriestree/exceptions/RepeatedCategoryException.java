@@ -5,7 +5,7 @@ package ru.ezuykow.categoriestree.exceptions;
  */
 public class RepeatedCategoryException extends RuntimeException {
 
-    public RepeatedCategoryException(String categoryName) {
-        super("Категория '" + categoryName + "' уже существует!");
+    public RepeatedCategoryException(String msg) {
+        super(msg);
     }
 }

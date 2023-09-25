@@ -2,10 +2,7 @@ package ru.ezuykow.categoriestree.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.ezuykow.categoriestree.commands.executors.AddElementCommandExec;
-import ru.ezuykow.categoriestree.commands.executors.HelpCommandExec;
-import ru.ezuykow.categoriestree.commands.executors.RemoveElementExec;
-import ru.ezuykow.categoriestree.commands.executors.ViewTreeCommandExec;
+import ru.ezuykow.categoriestree.commands.executors.*;
 import ru.ezuykow.categoriestree.updates.ExtendedUpdate;
 
 /**
@@ -19,6 +16,8 @@ public class CommandManager {
     private final AddElementCommandExec addElementCommandExec;
     private final ViewTreeCommandExec viewTreeCommandExec;
     private final RemoveElementExec removeElementExec;
+    private final DownloadCommandExec downloadCommandExec;
+    private final UploadCommandExec uploadCommandExec;
 
     //-----------------API START-----------------
 
@@ -35,6 +34,8 @@ public class CommandManager {
             case ADDELEMENT -> addElementCommandExec.execute(parsedCommand);
             case VIEWTREE -> viewTreeCommandExec.execute(parsedCommand);
             case REMOVEELEMENT -> removeElementExec.execute(parsedCommand);
+            case DOWNLOAD -> downloadCommandExec.execute(parsedCommand);
+            case UPLOAD -> uploadCommandExec.execute(parsedCommand);
         }
     }
 }
