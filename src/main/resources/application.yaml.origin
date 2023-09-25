@@ -1,0 +1,9 @@
+bot:
+  token: ###
+
+spring:
+  datasource:
+    driver-class-name: ###
+    url: ###
+    username: ###
+    password: ###
