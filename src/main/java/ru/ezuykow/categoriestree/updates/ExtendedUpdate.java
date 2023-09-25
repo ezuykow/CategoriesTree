@@ -22,6 +22,11 @@ public class ExtendedUpdate {
 
     //-----------------API START-----------------
 
+    /**
+     * Парсит апдейт с телеграма, заполняет и возвращает {@link ParsedCommand}
+     * @return {@link ParsedCommand} разобранная команда
+     * @author ezuykow
+     */
     public ParsedCommand parseCommand() {
         try {
             Command cmd;
@@ -47,19 +52,39 @@ public class ExtendedUpdate {
         }
     }
 
+    /**
+     * Проверяет есть ли в апдейте команда
+     * @return true если команда есть, false в противном случае
+     * @author ezuykow
+     */
     public boolean isCommand() {
         return (hasMessageText() && getMessageText().matches("/.*")) ||
                 (hasCaption() && getCaption().matches("/.*"));
     }
 
+    /**
+     * Проверяет есть ли в апдейте сообщение {@link Message}
+     * @return true если сообщение есть, false в противном случае
+     * @author ezuykow
+     */
     public boolean hasMessage() {
         return getMessage() != null;
     }
 
+    /**
+     * Проверяет есть ли в апдейте подпись {@link Message#caption()}
+     * @return true если подпись есть, false в противном случае
+     * @author ezuykow
+     */
     public boolean hasCaption() {
         return getCaption() != null;
     }
 
+    /**
+     * Проверяет есть ли в апдейте текст сообщения {@link Message#text()}
+     * @return true если текст сообщения есть, false в противном случае
+     * @author ezuykow
+     */
     public boolean hasMessageText() {
         return hasMessage() && (getMessageText() != null);
     }
@@ -75,14 +100,29 @@ public class ExtendedUpdate {
         return update.message().chat().id();
     }
 
+    /**
+     * Возвращает сообщение из апдейта {@link Update#message()}
+     * @return сообщение {@link Message} из апдейта
+     * @author ezuykow
+     */
     public Message getMessage() {
         return update.message();
     }
 
+    /**
+     * Возвращает подпись из апдейта {@link Message#caption()}
+     * @return подпись {@link Message#caption()} из апдейта
+     * @author ezuykow
+     */
     public String getCaption() {
         return update.message().caption();
     }
 
+    /**
+     * Возвращает подпись из апдейта {@link Message#text()}
+     * @return подпись {@link Message#text()} из апдейта
+     * @author ezuykow
+     */
     public String getMessageText() {
         return getMessage().text();
     }

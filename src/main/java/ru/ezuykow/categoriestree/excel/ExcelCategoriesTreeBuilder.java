@@ -35,6 +35,11 @@ public class ExcelCategoriesTreeBuilder {
 
     //-----------------API START-----------------
 
+    /**
+     * Собирает дерево категорий в файл Excel и возвращает его
+     * @return {@link File} Excel с деревом категорий
+     * @author ezuykow
+     */
     public File build() {
         allCategories = new HashSet<>(categoryService.findAll());
 

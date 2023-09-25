@@ -20,6 +20,10 @@ public class HelpCommandExec implements CommandExecutor {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает {@link ParsedCommand} и исполняет команду /help
+     * @param parsedCommand - команда с аргументами
+     */
     @Override
     public void execute(ParsedCommand parsedCommand) {
         String msg = Arrays.stream(Command.values())

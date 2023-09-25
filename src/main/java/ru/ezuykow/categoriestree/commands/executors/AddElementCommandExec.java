@@ -23,6 +23,10 @@ public class AddElementCommandExec implements CommandExecutor {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает {@link ParsedCommand} и исполняет команду /addElement
+     * @param parsedCommand - команда с аргументами
+     */
     @Override
     public void execute(ParsedCommand parsedCommand) {
         categoryService.saveCategory(createCategory(parsedCommand.args()));

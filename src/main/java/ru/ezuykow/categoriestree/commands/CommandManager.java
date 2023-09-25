@@ -21,6 +21,11 @@ public class CommandManager {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает апдейт, парсит команду и аргументы и вызывает необходимый экзекутор
+     * @param update апдейт {@link ExtendedUpdate} с командой
+     * @author ezuykow
+     */
     public void performCommand(ExtendedUpdate update) {
         ParsedCommand parsedCommand = update.parseCommand();
         executeCommand(parsedCommand);

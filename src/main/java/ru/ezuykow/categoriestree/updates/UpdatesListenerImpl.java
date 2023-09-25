@@ -28,6 +28,13 @@ public class UpdatesListenerImpl implements UpdatesListener {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает апдейты с телеграма (WebHook), декорирует их в {@link ExtendedUpdate} и передает в
+     * {@link UpdateManager}. Если в процессе обработки возникнет исключение - отправляет в чат, с которого пришел
+     * апдейт сообщение об ошибке
+     * @param updates available updates
+     * @return количество обработанных апдейтов
+     */
     @Override
     public int process(List<Update> updates) {
         for (Update tgUpdate : updates) {

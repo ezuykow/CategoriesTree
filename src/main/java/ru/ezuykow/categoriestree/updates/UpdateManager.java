@@ -15,6 +15,11 @@ public class UpdateManager {
 
     //-----------------API START-----------------
 
+    /**
+     * "Выполняет" апдейт - если в нем есть команда, то передает его в {@link CommandManager}
+     * @param update апдейт с телеграма
+     * @author ezuykow
+     */
     public void performUpdate(ExtendedUpdate update) {
         if (update.isCommand()) {
             commandManager.performCommand(update);

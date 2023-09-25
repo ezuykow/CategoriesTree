@@ -30,6 +30,10 @@ public class UploadCommandExec implements CommandExecutor {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает {@link ParsedCommand} и исполняет команду /upload
+     * @param parsedCommand - команда с аргументами
+     */
     @Override
     public void execute(ParsedCommand parsedCommand) {
         if (parsedCommand.document() == null) {

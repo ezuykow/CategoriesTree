@@ -19,10 +19,22 @@ public class MessageSender {
 
     //-----------------API START-----------------
 
+    /**
+     * Отправляет сообщение {@code msg} в чат с id {@code chatId}
+     * @param chatId id чата
+     * @param msg сообщение
+     * @author ezuykow
+     */
     public void send(long chatId, String msg) {
         telegramBot.execute(new SendMessage(chatId, msg));
     }
 
+    /**
+     * Отправляет файл {@code file} в чат с id {@code chatId}
+     * @param chatId id чата
+     * @param file файл
+     * @author ezuykow
+     */
     public void sendFile(long chatId, File file) {
         telegramBot.execute(new SendDocument(chatId, file));
     }

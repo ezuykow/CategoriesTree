@@ -26,6 +26,12 @@ public class DocumentUploader {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает документ {@link Document} из апдейта, сохраняет его во временный файл и возвращает
+     * @param doc {@link Document} из апдейта
+     * @return загруженный файл {@link File}
+     * @author ezuykow
+     */
     public File upload(Document doc) {
         try {
             return downloadFile(fileUrl(doc), newTempFile());

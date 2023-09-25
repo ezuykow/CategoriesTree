@@ -27,6 +27,10 @@ public class ViewTreeCommandExec implements CommandExecutor {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает {@link ParsedCommand} и исполняет команду /viewTree
+     * @param parsedCommand - команда с аргументами
+     */
     @Override
     public void execute(ParsedCommand parsedCommand) {
         allCategories = new HashSet<>(categoryService.findAll());

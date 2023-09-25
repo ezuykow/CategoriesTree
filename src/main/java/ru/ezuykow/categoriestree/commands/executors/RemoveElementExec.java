@@ -19,6 +19,10 @@ public class RemoveElementExec implements CommandExecutor {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает {@link ParsedCommand} и исполняет команду /remove
+     * @param parsedCommand - команда с аргументами
+     */
     @Override
     public void execute(ParsedCommand parsedCommand) {
         categoryService.removeByName(parsedCommand.args().get(0));

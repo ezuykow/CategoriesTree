@@ -1,6 +1,7 @@
 package ru.ezuykow.categoriestree.commands;
 
 /**
+ * Перечисление доступных команд бота с описаниями
  * @author ezuykow
  */
 public enum Command {

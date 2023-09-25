@@ -23,11 +23,19 @@ public class ExcelCategoriesParser {
 
     //-----------------API START-----------------
 
+    /**
+     * Принимает скачанный с апдейта Excel файл, находит в нем дерево категорий и возвращает его списком
+     * @param file скачанный с апдейта Excel файл
+     * @return {@link List<Category>} с найденными в файле категориями
+     * @author ezuykow
+     */
     public List<Category> parse(File file) {
         try (XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file))) {
             return findNewCategoriesInSheet(workbook.getSheetAt(0));
         } catch (IOException e) {
             throw new DocumentParsingException();
+        } finally {
+            file.delete();
         }
     }
 
