@@ -10,4 +10,4 @@ import java.util.List;
  * {@code document}
  * @author ezuykow
  */
-public record ParsedCommand(long chatId, Command command, List<String> args, Document document) {}
+public record ParsedCommand(long chatId, Command command, List<String> args, Document document, long ownerId) {}

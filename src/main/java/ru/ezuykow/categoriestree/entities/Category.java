@@ -27,12 +27,17 @@ public class Category {
     @JoinColumn(name = "parent")
     private Category parent;
 
-    public Category(String name) {
+    @Column(name = "owner_id")
+    private Long ownerId;
+
+    public Category(String name, Long ownerId) {
         this.name = name;
+        this.ownerId = ownerId;
     }
 
-    public Category(Category parent, String name) {
+    public Category(Category parent, String name, Long ownerId) {
         this.parent = parent;
         this.name = name;
+        this.ownerId = ownerId;
     }
 }

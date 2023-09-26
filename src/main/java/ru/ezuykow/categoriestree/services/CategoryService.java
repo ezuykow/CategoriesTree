@@ -51,12 +51,13 @@ public class CategoryService {
     }
 
     /**
-     * Возвращает все категории из БД списком
+     * Возвращает все категории из БД списком по id владельца
+     * @param ownerId id владельца
      * @return список категорий из БД
      * @author ezuykow
      */
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<Category> findAllByOwnerId(long ownerId) {
+        return categoryRepository.findCategoryByOwnerId(ownerId);
     }
 
     /**
@@ -72,13 +73,14 @@ public class CategoryService {
     }
 
     /**
-     * Удаляет из БД категорию по имени
+     * Удаляет из БД категорию по имени и id владельца
      * @param categoryName имя удаляемой категории
+     * @param ownerId id владельца
      * @author ezuykow
      */
     @Transactional
-    public void removeByName(String categoryName) {
-        categoryRepository.deleteCategoryByName(categoryName);
+    public void removeByNameAndOwnerId(String categoryName, long ownerId) {
+        categoryRepository.deleteCategoryByNameAndOwnerId(categoryName, ownerId);
     }
 
     //-----------------API END-------------------

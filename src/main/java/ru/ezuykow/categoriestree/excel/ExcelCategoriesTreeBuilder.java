@@ -40,8 +40,8 @@ public class ExcelCategoriesTreeBuilder {
      * @return {@link File} Excel с деревом категорий
      * @author ezuykow
      */
-    public File build() {
-        allCategories = new HashSet<>(categoryService.findAll());
+    public File build(long ownerId) {
+        allCategories = new HashSet<>(categoryService.findAllByOwnerId(ownerId));
 
         if (allCategories.isEmpty()) {
             return null;

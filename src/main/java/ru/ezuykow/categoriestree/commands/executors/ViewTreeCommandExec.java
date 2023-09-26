@@ -33,7 +33,7 @@ public class ViewTreeCommandExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        allCategories = new HashSet<>(categoryService.findAll());
+        allCategories = new HashSet<>(categoryService.findAllByOwnerId(parsedCommand.ownerId()));
 
         String message = (allCategories.isEmpty())
                 ? "В дереве нет ни одной категории"

@@ -15,9 +15,11 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Optional<Category> findCategoryByName(String name);
 
+    List<Category> findCategoryByOwnerId(long ownerId);
+
     boolean existsByName(String name);
 
     List<Category> findCategoriesByNameIn(List<String> names);
 
-    void deleteCategoryByName(String name);
+    void deleteCategoryByNameAndOwnerId(String name, long ownerId);
 }

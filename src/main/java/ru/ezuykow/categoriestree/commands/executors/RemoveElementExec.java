@@ -25,7 +25,7 @@ public class RemoveElementExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        categoryService.removeByName(parsedCommand.args().get(0));
+        categoryService.removeByNameAndOwnerId(parsedCommand.args().get(0), parsedCommand.ownerId());
         messageSender.send(parsedCommand.chatId(), "Категория удалена");
     }
 

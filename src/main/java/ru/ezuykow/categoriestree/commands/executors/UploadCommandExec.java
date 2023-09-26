@@ -43,7 +43,7 @@ public class UploadCommandExec implements CommandExecutor {
 
         if (documentIsExcelFile(parsedCommand.document())) {
             File file = documentUploader.upload(parsedCommand.document());
-            List<Category> newCategories = excelCategoriesParser.parse(file);
+            List<Category> newCategories = excelCategoriesParser.parse(file, parsedCommand.ownerId());
             categoryService.saveAll(newCategories);
             messageSender.send(parsedCommand.chatId(), "Категории с файла добавлены");
         } else {

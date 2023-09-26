@@ -26,12 +26,13 @@ public class ExcelCategoriesParser {
     /**
      * Принимает скачанный с апдейта Excel файл, находит в нем дерево категорий и возвращает его списком
      * @param file скачанный с апдейта Excel файл
+     * @param ownerId id юзера
      * @return {@link List<Category>} с найденными в файле категориями
      * @author ezuykow
      */
-    public List<Category> parse(File file) {
+    public List<Category> parse(File file, long ownerId) {
         try (XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file))) {
-            return findNewCategoriesInSheet(workbook.getSheetAt(0));
+            return findNewCategoriesInSheet(workbook.getSheetAt(0), ownerId);
         } catch (IOException e) {
             throw new DocumentParsingException();
         } finally {
@@ -41,7 +42,7 @@ public class ExcelCategoriesParser {
 
     //-----------------API END-------------------
 
-    private List<Category> findNewCategoriesInSheet(XSSFSheet sheet) {
+    private List<Category> findNewCategoriesInSheet(XSSFSheet sheet, long ownerId) {
         List<Category> newCategories = new ArrayList<>();
         Map<Integer, Category> categoriesLevels = new HashMap<>();
         AtomicInteger maxLevel = new AtomicInteger(0);
@@ -63,7 +64,8 @@ public class ExcelCategoriesParser {
                     categoriesLevels.remove(i);
                 }
                 maxLevel.set(categoryLevel);
-                Category newCategory = new Category(categoriesLevels.get(categoryLevel - 1), categoryName);
+                Category newCategory = new Category(categoriesLevels.get(categoryLevel - 1),
+                        categoryName, ownerId);
                 categoriesLevels.put(categoryLevel, newCategory);
                 newCategories.add(newCategory);
             }

@@ -27,7 +27,7 @@ public class DownloadCommandExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        File file = excelCategoriesTreeBuilder.build();
+        File file = excelCategoriesTreeBuilder.build(parsedCommand.ownerId());
 
         if (file == null) {
             messageSender.send(parsedCommand.chatId(), "В дереве нет ни одной категории");
