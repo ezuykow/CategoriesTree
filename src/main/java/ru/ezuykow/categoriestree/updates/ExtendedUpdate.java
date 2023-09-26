@@ -46,7 +46,7 @@ public class ExtendedUpdate {
                 cmd = Command.valueOf(text.substring(1).toUpperCase());
                 args = Collections.emptyList();
             }
-            return new ParsedCommand(getChatId(), cmd, args, getMessage().document());
+            return new ParsedCommand(getChatId(), cmd, args, getMessage().document(), getMessageOwnerId());
         } catch (IllegalArgumentException e) {
             throw new UnknownCommandException();
         }
@@ -125,6 +125,15 @@ public class ExtendedUpdate {
      */
     public String getMessageText() {
         return getMessage().text();
+    }
+
+    /**
+     * Возвращает id юзера, отправившего сообщение
+     * @return id юзера
+     * @author ezuykow
+     */
+    public long getMessageOwnerId() {
+        return getMessage().from().id();
     }
 
     //-----------------API END-------------------

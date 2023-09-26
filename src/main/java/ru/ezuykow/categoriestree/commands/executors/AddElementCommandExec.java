@@ -29,19 +29,19 @@ public class AddElementCommandExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        categoryService.saveCategory(createCategory(parsedCommand.args()));
+        categoryService.saveCategory(createCategory(parsedCommand.args(), parsedCommand.ownerId()));
         messageSender.send(parsedCommand.chatId(), "Категория добавлена");
     }
 
     //-----------------API END-------------------
 
-    private Category createCategory(List<String> args) {
+    private Category createCategory(List<String> args, long ownerId) {
         Category category;
         switch (args.size()) {
-            case 1 -> category = new Category(args.get(0));
+            case 1 -> category = new Category(args.get(0), ownerId);
             case 2 -> category = new Category(
                     categoryService.findCategoryByName(args.get(0)),
-                    args.get(1));
+                    args.get(1), ownerId);
             default -> throw  new WrongArgumentsCount();
         }
 
