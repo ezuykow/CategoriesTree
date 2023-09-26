@@ -23,8 +23,6 @@ public class ViewTreeCommandExec implements CommandExecutor {
     private final CategoryService categoryService;
     private final MessageSender messageSender;
 
-    private Set<Category> allCategories;
-
     //-----------------API START-----------------
 
     /**
@@ -33,28 +31,28 @@ public class ViewTreeCommandExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        allCategories = new HashSet<>(categoryService.findAllByOwnerId(parsedCommand.ownerId()));
+        Set<Category> allCategories = new HashSet<>(categoryService.findAllByOwnerId(parsedCommand.ownerId()));
 
         String message = (allCategories.isEmpty())
                 ? "В дереве нет ни одной категории"
-                : createCategoryTree(null, DESC, new StringBuilder()).toString();
+                : createCategoryTree(allCategories, null, DESC, new StringBuilder()).toString();
 
         messageSender.send(parsedCommand.chatId(), message);
     }
 
     //-----------------API END-------------------
 
-    private StringBuilder createCategoryTree(Category parent, String shift, StringBuilder sb) {
+    private StringBuilder createCategoryTree(Set<Category> allCategories, Category parent, String shift, StringBuilder sb) {
         TreeSet<Category> categories = new TreeSet<>(Comparator.comparing(Category::getName));
 
-        categories.addAll(allCategories.parallelStream()
+        categories.addAll(allCategories.stream()
                 .filter(c -> (parent == null && c.getParent() == null) || c.getParent().equals(parent))
                 .collect(Collectors.toSet()));
         allCategories.removeAll(categories);
 
         categories.forEach(c -> {
             sb.append(shift).append(c.getName()).append("\n");
-            createCategoryTree(c, shift.concat(DESC), sb);
+            createCategoryTree(allCategories, c, shift.concat(DESC), sb);
         });
 
         return sb;

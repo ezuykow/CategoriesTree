@@ -1,12 +1,15 @@
 package ru.ezuykow.categoriestree.excel;
 
+import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.model.Document;
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
+import com.pengrad.telegrambot.request.GetFile;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.ezuykow.categoriestree.exceptions.DocumentUploadException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -15,14 +18,10 @@ import java.nio.channels.ReadableByteChannel;
  * @author ezuykow
  */
 @Component
+@RequiredArgsConstructor
 public class DocumentUploader {
 
-    private static final String FILE_API_URL_PREFIX = "https://api.telegram.org/file/bot";
-    private static final String BOT_API_URL_PREFIX = "https://api.telegram.org/bot";
-    private static final String BOT_API_METHOD_GET_FILE = "/getFile?file_id=";
-
-    @Value("${bot.token}")
-    private String botToken;
+    private final TelegramBot bot;
 
     //-----------------API START-----------------
 
@@ -34,7 +33,8 @@ public class DocumentUploader {
      */
     public File upload(Document doc) {
         try {
-            return downloadFile(fileUrl(doc), newTempFile());
+            com.pengrad.telegrambot.model.File file = bot.execute(new GetFile(doc.fileId())).file();
+            return downloadFile(new URL(bot.getFullFilePath(file)), newTempFile());
         } catch (Exception e) {
             throw new DocumentUploadException();
         }
@@ -49,20 +49,6 @@ public class DocumentUploader {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             return tempFile;
         }
-    }
-
-    private URL fileUrl(Document doc) throws Exception {
-        return new URL(FILE_API_URL_PREFIX + botToken + "/" + getFilePath(doc));
-    }
-
-    private String getFilePath(Document doc) throws Exception {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(fileInfoUrl(doc).openStream()))) {
-            return new JSONObject(in.readLine()).getJSONObject("result").getString("file_path");
-        }
-    }
-
-    private URL fileInfoUrl(Document doc) throws IOException {
-        return new URL(BOT_API_URL_PREFIX + botToken + BOT_API_METHOD_GET_FILE + doc.fileId());
     }
 
     private File newTempFile() throws IOException {

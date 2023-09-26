@@ -36,15 +36,14 @@ public class ExcelCategoriesTreeBuilder {
     //-----------------API START-----------------
 
     /**
-     * Собирает дерево категорий в файл Excel и возвращает его
-     * @return {@link File} Excel с деревом категорий
+     * Собирает дерево категорий в файл Excel
      * @author ezuykow
      */
-    public File build(long ownerId) {
+    public void build(long ownerId, File file) throws IOException {
         allCategories = new HashSet<>(categoryService.findAllByOwnerId(ownerId));
 
         if (allCategories.isEmpty()) {
-            return null;
+            return;
         }
 
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
@@ -60,13 +59,8 @@ public class ExcelCategoriesTreeBuilder {
                 sheet.autoSizeColumn(i);
             }
 
-            File file = File.createTempFile("categories", ".xlsx");
             workbook.write(new FileOutputStream(file));
-            return file;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-
     }
 
     //-----------------API END-------------------
