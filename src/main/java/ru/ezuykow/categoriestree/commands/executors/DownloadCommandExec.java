@@ -5,9 +5,12 @@ import org.springframework.stereotype.Component;
 import ru.ezuykow.categoriestree.commands.CommandExecutor;
 import ru.ezuykow.categoriestree.commands.ParsedCommand;
 import ru.ezuykow.categoriestree.excel.ExcelCategoriesTreeBuilder;
+import ru.ezuykow.categoriestree.exceptions.DocumentBuildingException;
+import ru.ezuykow.categoriestree.exceptions.FileCreationException;
 import ru.ezuykow.categoriestree.messages.MessageSender;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author ezuykow
@@ -27,16 +30,25 @@ public class DownloadCommandExec implements CommandExecutor {
      */
     @Override
     public void execute(ParsedCommand parsedCommand) {
-        File file = excelCategoriesTreeBuilder.build(parsedCommand.ownerId());
+        File file = createTempFile();
 
-        if (file == null) {
-            messageSender.send(parsedCommand.chatId(), "В дереве нет ни одной категории");
-            return;
+        try {
+            excelCategoriesTreeBuilder.build(parsedCommand.ownerId(), file);
+            messageSender.sendFile(parsedCommand.chatId(), file);
+        } catch (IOException e) {
+            throw new DocumentBuildingException();
+        } finally {
+            file.delete();
         }
-
-        messageSender.sendFile(parsedCommand.chatId(), file);
-        file.delete();
     }
 
     //-----------------API END-------------------
+
+    private File createTempFile() {
+        try {
+            return File.createTempFile("categories", ".xlsx");
+        } catch (IOException e) {
+            throw new FileCreationException();
+        }
+    }
 }

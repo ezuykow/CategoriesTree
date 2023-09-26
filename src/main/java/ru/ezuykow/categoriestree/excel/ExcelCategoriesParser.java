@@ -35,8 +35,6 @@ public class ExcelCategoriesParser {
             return findNewCategoriesInSheet(workbook.getSheetAt(0), ownerId);
         } catch (IOException e) {
             throw new DocumentParsingException();
-        } finally {
-            file.delete();
         }
     }
 
