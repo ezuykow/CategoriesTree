@@ -6,6 +6,7 @@ import ru.ezuykow.categoriestree.commands.CommandExecutor;
 import ru.ezuykow.categoriestree.commands.ParsedCommand;
 import ru.ezuykow.categoriestree.excel.ExcelCategoriesTreeBuilder;
 import ru.ezuykow.categoriestree.exceptions.DocumentBuildingException;
+import ru.ezuykow.categoriestree.exceptions.FileCreationException;
 import ru.ezuykow.categoriestree.messages.MessageSender;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public class DownloadCommandExec implements CommandExecutor {
         try {
             return File.createTempFile("categories", ".xlsx");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileCreationException();
         }
     }
 }
